@@ -1,6 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Income Growth by State (1970-2022)",
+ "title": {
+    "text": "Income Growth by State (1970-2022)",
+    "fontSize": 20,
+    "fontWeight": "bold"
+  },
+
   "data": {"url": "data/income_by_state.csv"},
   "transform": [
     {"calculate": "year(toDate(datum.date))", "as": "year"}

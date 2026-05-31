@@ -44,6 +44,7 @@
     "color": {
       "field": "state",
       "type": "nominal",
+      "scale": {"scheme": "tableau20"},
       "legend": {
         "title": "State",
         "orient": "right",

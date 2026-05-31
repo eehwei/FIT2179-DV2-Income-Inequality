@@ -19,16 +19,13 @@
       "mark": {
         "type": "circle",
         "size": 200,
-        "opacity": 0.8,
-        "color": "#1f77b4"
+        "opacity": 0.8
       },
       "encoding": {
         "x": {
           "field": "income_median",
           "type": "quantitative",
-          "scale": {
-            "domain": [3000, 12000]
-          },
+          "scale": {"domain": [3000, 12000]},
           "axis": {
             "title": "Median Income (RM)",
             "format": ",.0f",
@@ -40,9 +37,7 @@
         "y": {
           "field": "poverty",
           "type": "quantitative",
-          "scale": {
-            "domain": [0, 20]
-          },
+          "scale": {"domain": [0, 20]},
           "axis": {
             "title": "Poverty Rate (%)",
             "format": ".1f",
@@ -50,6 +45,12 @@
             "labelFontSize": 11,
             "grid": true
           }
+        },
+        "color": {
+          "field": "income_median",
+          "type": "quantitative",
+          "scale": {"scheme": "blues"},
+          "legend": {"title": "Income (RM)", "format": ",.0f"}
         },
         "tooltip": [
           {"field": "state", "type": "nominal", "title": "State"},
@@ -60,17 +61,8 @@
       }
     },
     {
-      "transform": [
-        {"filter": "datum.state == 'Selangor'"}
-      ],
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "dx": 10,
-        "dy": -15,
-        "fontSize": 10,
-        "fontWeight": "bold"
-      },
+      "transform": [{"filter": "datum.state == 'Selangor'"}],
+      "mark": {"type": "text", "align": "left", "dx": 10, "dy": -15, "fontSize": 10, "fontWeight": "bold"},
       "encoding": {
         "x": {"field": "income_median", "type": "quantitative"},
         "y": {"field": "poverty", "type": "quantitative"},
@@ -78,17 +70,8 @@
       }
     },
     {
-      "transform": [
-        {"filter": "datum.state == 'W.P. Kuala Lumpur'"}
-      ],
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "dx": 10,
-        "dy": 10,
-        "fontSize": 10,
-        "fontWeight": "bold"
-      },
+      "transform": [{"filter": "datum.state == 'W.P. Kuala Lumpur'"}],
+      "mark": {"type": "text", "align": "left", "dx": 10, "dy": 10, "fontSize": 10, "fontWeight": "bold"},
       "encoding": {
         "x": {"field": "income_median", "type": "quantitative"},
         "y": {"field": "poverty", "type": "quantitative"},
@@ -96,17 +79,8 @@
       }
     },
     {
-      "transform": [
-        {"filter": "datum.state == 'Kelantan'"}
-      ],
-      "mark": {
-        "type": "text",
-        "align": "right",
-        "dx": -10,
-        "dy": 0,
-        "fontSize": 10,
-        "fontWeight": "bold"
-      },
+      "transform": [{"filter": "datum.state == 'Kelantan'"}],
+      "mark": {"type": "text", "align": "right", "dx": -10, "dy": 0, "fontSize": 10, "fontWeight": "bold"},
       "encoding": {
         "x": {"field": "income_median", "type": "quantitative"},
         "y": {"field": "poverty", "type": "quantitative"},
@@ -114,21 +88,28 @@
       }
     },
     {
-      "transform": [
-        {"filter": "datum.state == 'Sabah'"}
-      ],
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "dx": 10,
-        "dy": -15,
-        "fontSize": 10,
-        "fontWeight": "bold"
-      },
+      "transform": [{"filter": "datum.state == 'Sabah'"}],
+      "mark": {"type": "text", "align": "left", "dx": 10, "dy": -15, "fontSize": 10, "fontWeight": "bold"},
       "encoding": {
         "x": {"field": "income_median", "type": "quantitative"},
         "y": {"field": "poverty", "type": "quantitative"},
         "text": {"value": "Sabah"}
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "right", "fontSize": 15, "fontWeight": "bold", "color": "#08519c"},
+      "encoding": {
+        "x": {"datum": 12000},
+        "y": {"datum": 2},
+        "text": {"value": "← Richer States"}
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "fontSize": 15, "fontWeight": "bold", "color": "#d62728"},
+      "encoding": {
+        "x": {"datum": 3000},
+        "y": {"datum": 20},
+        "text": {"value": "Poorer States →"}
       }
     }
   ]
