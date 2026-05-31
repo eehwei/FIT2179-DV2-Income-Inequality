@@ -1,0 +1,99 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 700,
+  "height": 500,
+  "title": {
+    "text": "Malaysian States Ranked by Median Income (2022)",
+    "subtitle": "Vertical lines show poverty (RM5k) and prosperity (RM8k) thresholds",
+    "fontSize": 18
+  },
+  "data": {
+    "url": "data/income_by_state.csv"
+  },
+  "transform": [
+    {
+      "filter": "year(toDate(datum.date)) == 2022"
+    },
+    {
+      "calculate": "datum.income_median > 8000 ? 'Rich' : (datum.income_median < 5000 ? 'Poor' : 'Middle')",
+      "as": "income_category"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "point", "opacity": 0},
+      "encoding": {
+        "color": {
+          "field": "income_median",
+          "type": "quantitative",
+          "scale": {"scheme": "blues"},
+          "legend": {
+            "title": "Income (RM)",
+            "titleFontSize": 12,
+            "labelFontSize": 10,
+            "orient": "right",
+            "format": ",.0f"
+          }
+        }
+      }
+    },
+    {
+      "mark": "bar",
+      "encoding": {
+        "y": {
+          "field": "state",
+          "type": "nominal",
+          "sort": "-x",
+          "axis": {
+            "title": null,
+            "labelFontSize": 12
+          }
+        },
+        "x": {
+          "field": "income_median",
+          "type": "quantitative",
+          "axis": {
+            "title": "Median Income (RM)",
+            "format": ",.0f",
+            "titleFontSize": 13,
+            "labelFontSize": 11
+          }
+        },
+        "color": {
+          "field": "income_category",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Poor", "Middle", "Rich"],
+            "range": ["#9ecae1", "#4292c6", "#08519c"]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "income_median", "type": "quantitative", "title": "Median Income (RM)", "format": ",.0f"},
+          {"field": "income_mean", "type": "quantitative", "title": "Mean Income (RM)", "format": ",.0f"}
+        ]
+      }
+    },
+    {
+      "mark": "rule",
+      "encoding": {
+        "x": {"datum": 5000},
+        "color": {"value": "red"},
+        "size": {"value": 3},
+        "opacity": {"value": 0.8},
+        "strokeDash": {"value": [5, 5]}
+      }
+    },
+    {
+      "mark": "rule",
+      "encoding": {
+        "x": {"datum": 8000},
+        "color": {"value": "red"},
+        "size": {"value": 3},
+        "opacity": {"value": 0.8},
+        "strokeDash": {"value": [5, 5]}
+      }
+    }
+  ]
+}

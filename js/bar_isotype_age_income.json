@@ -1,0 +1,131 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "config": {"view": {"stroke": ""}},
+  "width": 600,
+  "height": 150,
+  "title": {
+    "text": "Demographic Burden by Income Class (2022)",
+    "subtitle": "Each icon represents 500,000 people",
+    "fontSize": 16
+  },
+  "data": {
+    "url": "data/population_by_state.csv"
+  },
+  "transform": [
+    {
+      "filter": "year(toDate(datum.date)) == 2022"
+    },
+    {
+      "filter": "datum.age != 'overall'"
+    },
+    {
+      "filter": "datum.sex == 'both'"
+    },
+    {
+      "filter": "datum.ethnicity == 'overall'"
+    },
+    {
+      "calculate": "datum.state == 'Selangor' || datum.state == 'W.P. Kuala Lumpur' || datum.state == 'W.P. Putrajaya' || datum.state == 'Johor' ? 'T20 (Richest)' : (datum.state == 'Kelantan' || datum.state == 'Perlis' || datum.state == 'Kedah' || datum.state == 'Sabah' || datum.state == 'Terengganu' || datum.state == 'Pahang' ? 'B40 (Poorest)' : 'M40 (Middle)')",
+      "as": "income_class"
+    },
+    {
+      "calculate": "split(datum.age, '-')[0] == '70' || split(datum.age, '-')[0] == '75' || split(datum.age, '-')[0] == '80' || split(datum.age, '-')[0] == '85' ? 70 : toNumber(split(datum.age, '-')[0])",
+      "as": "age_start"
+    },
+    {
+      "calculate": "datum.age_start >= 0 && datum.age_start <= 14 ? 'Youth (0-14)' : (datum.age_start >= 15 && datum.age_start <= 64 ? 'Working Age (15-64)' : 'Elderly (65+)')",
+      "as": "age_group"
+    },
+    {
+      "calculate": "datum.population * 1000",
+      "as": "population_actual"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "sum",
+          "field": "population_actual",
+          "as": "total_population"
+        }
+      ],
+      "groupby": ["income_class", "age_group"]
+    },
+    {
+      "calculate": "round(datum.total_population / 500000)",
+      "as": "icon_count"
+    },
+    {
+      "calculate": "sequence(1, datum.icon_count + 1)",
+      "as": "icon_sequence"
+    },
+    {
+      "flatten": ["icon_sequence"]
+    },
+    {
+      "calculate": "datum.icon_sequence",
+      "as": "col"
+    }
+  ],
+  "mark": {"type": "point", "filled": true},
+  "encoding": {
+    "x": {
+      "field": "col",
+      "type": "ordinal",
+      "axis": null
+    },
+    "y": {
+      "field": "age_group",
+      "type": "nominal",
+      "sort": ["Youth (0-14)", "Working Age (15-64)", "Elderly (65+)"],
+      "axis": {
+        "title": null,
+        "labelFontSize": 10,
+        "labelAngle": 0
+      }
+    },
+    "row": {
+      "field": "income_class",
+      "type": "nominal",
+      "sort": ["T20 (Richest)", "M40 (Middle)", "B40 (Poorest)"],
+      "header": {
+        "labelFontSize": 12,
+        "labelFontWeight": "bold",
+        "title": ""
+      }
+    },
+    "shape": {
+      "field": "age_group",
+      "type": "nominal",
+      "scale": {
+        "sort": ["Youth (0-14)", "Working Age (15-64)", "Elderly (65+)"],
+        "range": [
+          "M1.4 -2.5c0.7 0 1.3 0.6 1.3 1.3c0 0.7 -0.6 1.3 -1.3 1.3c-0.7 0 -1.3 -0.6 -1.3 -1.3c0 -0.7 0.6 -1.3 1.3 -1.3zM1.4 -0.2c-0.5 0 -0.9 0.1 -0.9 0.1v0.8c0 0 0 0.5 0.5 0.5h0.1v2.3c0 0.2 0.2 0.3 0.3 0.3c0.2 0 0.3 -0.1 0.3 -0.3v-2.3h0.1c0.5 0 0.5 -0.5 0.5 -0.5v-0.8c0 0 -0.4 -0.1 -0.9 -0.1z",
+          "M1.7 -1.7h-0.8c0.3 -0.2 0.6 -0.5 0.6 -0.9c0 -0.6 -0.4 -1 -1 -1c-0.6 0 -1 0.4 -1 1c0 0.4 0.2 0.7 0.6 0.9h-0.8c-0.4 0 -0.7 0.3 -0.7 0.6v1.9c0 0.3 0.3 0.6 0.6 0.6h0.2c0 0 0 0.1 0 0.1v1.9c0 0.3 0.2 0.6 0.3 0.6h1.3c0.2 0 0.3 -0.3 0.3 -0.6v-1.8c0 0 0 -0.1 0 -0.1h0.2c0.3 0 0.6 -0.3 0.6 -0.6v-2c0.2 -0.3 -0.1 -0.6 -0.4 -0.6z",
+          "M0.5 -2.5c0.7 0 1.2 0.6 1.2 1.2c0 0.7 -0.5 1.2 -1.2 1.2c-0.7 0 -1.2 -0.5 -1.2 -1.2c0 -0.6 0.5 -1.2 1.2 -1.2zM0.5 0c-0.5 0 -0.8 0.1 -0.8 0.1v0.7c0 0 0 0.4 0.4 0.4h0.1v1.9c0 0.2 0.2 0.3 0.3 0.3c0.2 0 0.3 -0.1 0.3 -0.3v-1.9h0.1c0.4 0 0.4 -0.4 0.4 -0.4v-0.7c0 0 -0.3 -0.1 -0.8 -0.1zM-0.5 0.8c-0.3 0 -0.5 0.2 -0.5 0.5v1.5c0 0.2 -0.1 0.3 -0.3 0.3c-0.1 0 -0.2 -0.1 -0.2 -0.3v-1.5c0 -0.3 -0.2 -0.5 -0.5 -0.5c-0.2 0 -0.3 0.1 -0.3 0.3v2c0 0.3 0.2 0.5 0.5 0.5h0.6c0.3 0 0.5 -0.2 0.5 -0.5v-2c0 -0.2 -0.1 -0.3 -0.3 -0.3z"
+        ]
+      },
+      "legend": null
+    },
+    "color": {
+      "field": "age_group",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Youth (0-14)", "Working Age (15-64)", "Elderly (65+)"],
+        "range": ["#fdae61", "#1f77b4", "#d62728"]
+      },
+      "legend": {
+        "title": "Age Group",
+        "orient": "top",
+        "titleFontSize": 11,
+        "labelFontSize": 10
+      }
+    },
+    "size": {"value": 150},
+    "opacity": {"value": 1},
+    "tooltip": [
+      {"field": "income_class", "type": "nominal", "title": "Income Class"},
+      {"field": "age_group", "type": "nominal", "title": "Age Group"},
+      {"field": "total_population", "type": "quantitative", "title": "Population", "format": ",.0f"}
+    ]
+  }
+}

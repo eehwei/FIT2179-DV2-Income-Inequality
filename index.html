@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malaysia's Economic Divide: The State of Inequality</title>
+  
+  <!-- Vega-Lite Libraries from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+  #vis5 svg line,
+  #vis5 svg path {
+    animation: drawLine 4s ease-in-out forwards;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+  }
+  
+  @keyframes drawLine {
+    0% {
+      stroke-dashoffset: 1000;
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+  }
+</style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header>
+    <h1 style="font-family: Georgia, 'Times New Roman', serif;">Malaysia's Economic Divide</h1>
+    <h2>The State of Inequality Across Malaysian States</h2>
+    <p class="subtitle">Exploring Income Inequality from 1970 to 2022</p>
+    <p class="author">By Ee Hwei | May 2026</p>
+  </header>
+
+  <!-- Main Container -->
+  <main>
+
+    <!-- SECTION 1: The Wealth Gap -->
+    <section class="story-section">
+      <h2>Section 1: The Wealth Gap</h2>
+      
+      <h3>Where is the Money in Malaysia?</h3>
+      <p>Malaysia's economy is deeply divided. <span class="highlight">Selangor and Kuala Lumpur earn over RM10,000 monthly, while Kelantan and Perlis struggle below RM5,000.</span> This map reveals stark regional disparities.</p>
+      
+      <!-- VIZ 1: Income Choropleth Map -->
+      <div id="vis1"></div>
+      
+      <p><span class="highlight">Wealth clusters around the Klang Valley; rural and East Malaysian states lag behind.</span> Geography determines opportunity.</p>
+
+      <h3>The Ranking</h3>
+      <p><span class="highlight">Putrajaya earns RM7,000+ more than Kelantan.</span> This bar chart ranks all states.</p>
+      
+      <!-- VIZ 2: Bar Chart - States Ranked by Income -->
+      <div id="vis2"></div>
+      
+      <p>Clear pattern: federal territories at top, rural states at bottom.</p>
+    </section>
+
+    <!-- SECTION 2: Income Categories in Malaysia -->
+    <section class="story-section">
+      <h2>Section 2: Income Categories in Malaysia</h2>
+      
+      <h3>Understanding B40, M40, and T20</h3>
+      <p>Malaysia divides households into three income tiers:</p>
+
+      <!-- VIZ: Income Tiers Chart -->
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <div id="vis_tiers"></div>
+      </div>
+
+      <p><span class="highlight">B40 (RM5,250/month): poorest 40% | M40 (RM5,251-11,819): middle class | T20 (RM11,820+): wealthiest 20%.</span> These categories help target assistance programs.</p>
+
+      <h3>Demographics of Prosperity</h3>
+      <p>Does income level match age structure? <span class="highlight">B40 states have more dependents; T20 states have more workers.</span> This affects economic health.</p>
+
+      <!-- VIZ 3: Age Distribution by Income Class -->
+      <div id="vis3"></div>
+
+      <p>Economic prosperity requires enough productive workers to support dependents.</p>
+    
+      <h3>Spending Priorities: Survival vs Investment</h3>
+      <p>Where does money go?</p>
+
+      <!-- VIZ 4: Expenditure Pie Charts -->
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <div id="vis4"></div>
+      </div>
+      
+      <p><span class="highlight">B40: 60% on survival (food, housing), only 8% on education and savings. T20: 35% on future investment.</span> This is why <span class="highlight">poverty is a trap—survival costs leave no room to invest.</span></p>
+
+      <h3>How They Earn: Sources of Income</h3>
+      <p>It's not just how much you earn—it's where money comes from.</p>
+
+      <!-- VIZ new: Income Sources Stacked Bar -->
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <div id="visnew"></div>
+      </div>
+
+      <p><span class="highlight">B40: 64% from wages + 16.5% from gigs. T20: 25.5% from investments (passive income).</span> The divide: B40 trades time for money; T20 owns assets that generate income.</p>
+    </section>
+
+    <!-- SECTION 3: Historical Trends -->
+    <section class="story-section">
+      <h2>Section 3: Historical Trends</h2>
+      
+      <h3>Five Decades of Growth—But Not for Everyone</h3>
+      <p><span class="highlight">The rich-poor gap, established in the 1970s, has barely changed for 50 years.</span> Economic crises created dips, but relative positions stayed the same.</p>
+      
+      <button id="replayBtn" style="padding: 10px 20px; background-color: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; margin-bottom: 15px; font-weight: bold;">
+        ⟳ Replay Animation
+      </button>
+      
+      <!-- VIZ 5: Line Chart - Income Trends -->
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <div id="vis5"></div>
+      </div>
+    
+      <h3>Every State's Story</h3>
+      <p>Selangor and Kuala Lumpur show steep growth; Kelantan and Perlis show stagnation. <span class="highlight">West Malaysian states grew faster; East Malaysian states grew modestly.</span></p>
+      
+      <!-- VIZ 6: Small Multiples - Income per State -->
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <div id="vis6"></div>
+      </div>
+    </section>
+    
+    <!-- SECTION 4: Poverty Reality -->
+    <section class="story-section">
+      <h2>Section 4: Poverty Reality</h2>
+      
+      <h3>Who's Struggling to Survive?</h3>
+      <p><span class="highlight">States in red: >10% poverty. States in green: <3% poverty.</span> Urban-rural contrast is stark.</p>
+      
+      <!-- VIZ 7: Poverty Bar Chart -->
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <div id="vis7"></div>
+      </div>
+      
+      <h3>The Income-Poverty Connection</h3>
+      <p>Higher income = lower poverty. But the relationship isn't perfect—some states defy the trend.</p>
+      
+      <!-- VIZ 9: Income vs Poverty Scatter -->
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <div id="vis9"></div>
+      </div>
+      
+      <p><span class="highlight">Bottom-right (Selangor): high income, low poverty. Top-left (Kelantan, Sabah): low income, high poverty.</span> Development requires lifting the poorest households, not just raising averages.</p>
+    </section>
+
+    <!-- SECTION 5: Inequality Within -->
+    <section class="story-section">
+      <h2>Section 5: Inequality Within</h2>
+      
+      <h3>Measuring the Gap</h3>
+      <p>The Gini coefficient (0 = perfect equality, 1 = one person has all) shows <span class="highlight">Sabah and Kelantan have the widest rich-poor gaps.</span> Pahang and Terengganu are more equal—but equally modest.</p>
+      
+      <!-- VIZ 10: Gini Diverging Bar -->
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <div id="vis10"></div>
+      </div>
+      
+      <h3>Half a Century of Inequality</h3>
+      <p><span class="highlight">Inequality has darkened over time.</span> Sabah and Kelantan show persistent deep red. Economic growth hasn't translated to equal distribution.</p>
+
+      <!-- VIZ 11: Gini Over Time Heatmap -->
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <div id="vis11"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p><strong>Data Sources:</strong> Department of Statistics Malaysia (DOSM) | <a href="https://open.dosm.gov.my" target="_blank">OpenDOSM</a></p>
+    <p>Visualizations created with Vega-Lite | FIT2179 Data Visualisation 2 | Semester 1, 2026</p>
+  </footer>
+
+  <!-- Load Vega-Lite Visualizations -->
+  <script>
+    // === SECTION 1: The Wealth Gap ===
+    vegaEmbed('#vis1', 'js/choropleth_income.json', {actions: false, renderer: 'svg'}).catch(console.error);
+    vegaEmbed('#vis2', 'js/bar_chart_income.json', {actions: false, renderer: 'svg'}).catch(console.error);
+
+    // === SECTION 2: Income Categories ===
+    vegaEmbed('#vis_tiers', 'js/income_tiers_chart.json', {actions: false, renderer: 'svg'}).catch(console.error);
+    vegaEmbed('#vis3', 'js/bar_isotype_age_income.json', {actions: false, renderer: 'svg'}).catch(console.error);
+    vegaEmbed('#vis4', 'js/pie_chart_expenditure.json', {actions: false, renderer: 'svg'}).catch(console.error);
+    vegaEmbed('#visnew', 'js/stacked_bar_income_source.json', {actions: false, renderer: 'svg'}).catch(console.error);
+
+    // === SECTION 3: Historical Trends ===
+    vegaEmbed('#vis5', 'js/line_chart_income_trends.json', {actions: false, renderer: 'svg'}).catch(console.error);
+    vegaEmbed('#vis6', 'js/small_multiples_income.json', {actions: false, renderer: 'svg'}).catch(console.error);
+
+    // === SECTION 4: Poverty ===
+    vegaEmbed('#vis7', 'js/bar_chart_poverty.json', {actions: false, renderer: 'svg'}).catch(console.error);
+    vegaEmbed('#vis9', 'js/scatter_income_poverty.json', {actions: false, renderer: 'svg'}).catch(console.error);
+
+    // === SECTION 5: Inequality ===
+    vegaEmbed('#vis10', 'js/diverging_bar_gini.json', {actions: false, renderer: 'svg'}).catch(console.error);
+    vegaEmbed('#vis11', 'js/heatmap_gini_time.json', {actions: false, renderer: 'svg'}).catch(console.error);
+
+    // Replay Animation Button
+    document.getElementById('replayBtn').addEventListener('click', function() {
+      const vis5 = document.getElementById('vis5');
+      vis5.innerHTML = '';
+      vegaEmbed('#vis5', 'js/line_chart_income_trends.json', {actions: false, renderer: 'svg'}).catch(console.error);
+      const btn = document.getElementById('replayBtn');
+      const originalText = btn.textContent;
+      btn.textContent = '⟳ Animating...';
+      btn.disabled = true;
+      setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 2000);
+    });
+  </script>
+
+</body>
+</html>

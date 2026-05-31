@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 400,
+  "title": {
+    "text": "Five Decades of Income Growth: The Widening Inequality Gap",
+    "subtitle": "Watch the divergence between rich and poor states unfold",
+    "fontSize": 16
+  },
+  "data": {
+    "url": "data/income_by_state.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum.income_median != null && isValid(datum.income_median)"
+    }
+  ],
+  "mark": {
+    "type": "line",
+    "point": true,
+    "interpolate": "monotone",
+    "tension": 0.3,
+    "strokeWidth": 2.5
+  },
+  "encoding": {
+    "x": {
+      "field": "date",
+      "type": "temporal",
+      "axis": {
+        "title": "Year",
+        "format": "%Y",
+        "titleFontSize": 13
+      }
+    },
+    "y": {
+      "field": "income_median",
+      "type": "quantitative",
+      "axis": {
+        "title": "Median Income (RM)",
+        "format": ",.0f",
+        "titleFontSize": 13
+      }
+    },
+    "color": {
+      "field": "state",
+      "type": "nominal",
+      "legend": {
+        "title": "State",
+        "orient": "right",
+        "labelFontSize": 10
+      }
+    },
+    "tooltip": [
+      {"field": "state", "type": "nominal", "title": "State"},
+      {"field": "date", "type": "temporal", "format": "%Y", "title": "Year"},
+      {"field": "income_median", "type": "quantitative", "title": "Income (RM)", "format": ",.0f"}
+    ]
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 1000,
+  "height": 300,
+  "title": {
+    "text": "Median Household Income by Malaysian State (2022)",
+    "fontSize": 24,
+    "anchor": "middle",
+    "offset": 20
+  },
+  "projection": {
+    "type": "mercator",
+    "center": [109, 4],
+    "scale": 2500
+  },
+  "data": {
+    "url": "data/malaysia_states.json",
+    "format": {
+      "type": "topojson",
+      "feature": "administrative_1_state"
+    }
+  },
+  "transform": [
+    {
+      "lookup": "properties.state",
+      "from": {
+        "data": {
+          "url": "data/income_by_state.csv"
+        },
+        "key": "state",
+        "fields": ["date", "income_median", "income_mean"]
+      }
+    },
+    {
+      "calculate": "year(toDate(datum.date))",
+      "as": "year"
+    },
+    {
+      "filter": "datum.year == 2022"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "geoshape",
+        "stroke": "white",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "color": {
+          "field": "income_median",
+          "type": "quantitative",
+          "scale": {
+            "scheme": "blues",
+            "domain": [3000, 12000]
+          },
+          "legend": {
+            "title": "Median Income (RM)",
+            "orient": "right",
+            "format": ",.0f",
+            "titleFontSize": 14,
+            "labelFontSize": 12
+          }
+        },
+        "tooltip": [
+          {"field": "properties.state", "type": "nominal", "title": "State"},
+          {"field": "year", "type": "quantitative", "title": "Year"},
+          {"field": "income_median", "type": "quantitative", "title": "Median Income (RM)", "format": ",.0f"},
+          {"field": "income_mean", "type": "quantitative", "title": "Mean Income (RM)", "format": ",.0f"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"state": "Perlis", "lon": 100.2, "lat": 6.4},
+          {"state": "Kedah", "lon": 100.5, "lat": 6.1},
+          {"state": "Pulau Pinang", "lon": 100.3, "lat": 5.4},
+          {"state": "Perak", "lon": 101.1, "lat": 4.6},
+          {"state": "Kelantan", "lon": 102.2, "lat": 6.1},
+          {"state": "Terengganu", "lon": 103.1, "lat": 5.3},
+          {"state": "Pahang", "lon": 102.5, "lat": 3.8},
+          {"state": "Selangor", "lon": 101.5, "lat": 3.0},
+          {"state": "Negeri Sembilan", "lon": 102.2, "lat": 2.7},
+          {"state": "Melaka", "lon": 102.2, "lat": 2.2},
+          {"state": "Johor", "lon": 103.7, "lat": 1.5},
+          {"state": "W.P. Labuan", "lon": 115.2, "lat": 5.3},
+          {"state": "Sabah", "lon": 116.5, "lat": 5.5},
+          {"state": "Sarawak", "lon": 113.0, "lat": 2.0}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 15,
+        "fontWeight": "600",
+        "color": "#222",
+        "opacity": 0.85
+      },
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "state", "type": "nominal"}
+      }
+    }
+  ]
+}

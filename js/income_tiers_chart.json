@@ -1,0 +1,51 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 600,
+  "height": 150,
+  "title": {
+    "text": "Malaysian Income Tiers (2022)",
+    "fontSize": 16
+  },
+  "data": {
+    "values": [
+      {"tier": "B40 (Bottom 40%)", "income_start": 0, "income_end": 5250, "income_label": "RM0 - RM5,250", "order": 1},
+      {"tier": "M40 (Middle 40%)", "income_start": 5251, "income_end": 11819, "income_label": "RM5,251 - RM11,819", "order": 2},
+      {"tier": "T20 (Top 20%)", "income_start": 11820, "income_end": 20000, "income_label": "RM11,820+", "order": 3}
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "y": {
+      "field": "tier",
+      "type": "nominal",
+      "sort": ["B40 (Bottom 40%)", "M40 (Middle 40%)", "T20 (Top 20%)"],
+      "axis": {
+        "title": null,
+        "labelFontSize": 12,
+        "labelFontWeight": "bold"
+      }
+    },
+    "x": {
+      "field": "income_end",
+      "type": "quantitative",
+      "axis": {
+        "title": "Monthly Income Range (RM)",
+        "format": ",.0f",
+        "titleFontSize": 12
+      }
+    },
+    "color": {
+      "field": "tier",
+      "type": "nominal",
+      "scale": {
+        "domain": ["B40 (Bottom 40%)", "M40 (Middle 40%)", "T20 (Top 20%)"],
+        "range": ["#9ecae1", "#4292c6", "#08519c"]
+      },
+      "legend": null
+    },
+    "tooltip": [
+      {"field": "tier", "type": "nominal", "title": "Income Tier"},
+      {"field": "income_label", "type": "nominal", "title": "Income Range"}
+    ]
+  }
+}

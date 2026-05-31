@@ -1,0 +1,107 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 700,
+  "height": 500,
+  "title": {
+    "text": "State Inequality Deviation from National Average (2022)",
+    "subtitle": "Gini coefficient: how evenly income is distributed (0 = perfect equality, 1 = one person has everything)",
+    "fontSize": 18
+  },
+  "data": {
+    "url": "data/poverty_by_state.csv"
+  },
+  "transform": [
+    {
+      "filter": "year(toDate(datum.date)) == 2022"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "mean",
+          "field": "gini",
+          "as": "national_gini"
+        }
+      ]
+    },
+    {
+      "calculate": "(datum.gini - datum.national_gini) * 1000",
+      "as": "deviation"
+    },
+    {
+      "window": [{"op": "rank", "as": "rank_high"}],
+      "sort": [{"field": "deviation", "order": "descending"}]
+    },
+    {
+      "window": [{"op": "rank", "as": "rank_low"}],
+      "sort": [{"field": "deviation", "order": "ascending"}]
+    },
+    {
+      "calculate": "datum.rank_high <= 1 ? 'Most Unequal State' : (datum.rank_low <= 1? 'Most Equal State' : '')",
+      "as": "label"
+    }
+  ],
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "y": {
+          "field": "state",
+          "type": "nominal",
+          "sort": {"field": "deviation", "order": "descending"},
+          "axis": {
+            "title": null,
+            "labelFontSize": 12
+          }
+        },
+        "x": {
+          "field": "deviation",
+          "type": "quantitative",
+          "axis": {
+            "title": "Deviation from National Average Gini (×1000)",
+            "titleFontSize": 13,
+            "labelFontSize": 11,
+            "grid": true
+          }
+        },
+        "color": {
+          "condition": {
+            "test": "datum.deviation > 0",
+            "value": "#e74c3c"
+          },
+          "value": "#3273ED"
+        },
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "gini", "type": "quantitative", "title": "Gini Coefficient", "format": ".3f"},
+          {"field": "national_gini", "type": "quantitative", "title": "National Average", "format": ".3f"},
+          {"field": "deviation", "type": "quantitative", "title": "Deviation (×1000)", "format": "+.1f"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "color": "#2c3e50"
+      },
+      "encoding": {
+        "y": {
+          "field": "state",
+          "type": "nominal",
+          "sort": {"field": "deviation", "order": "descending"}
+        },
+        "x": {
+          "field": "deviation",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        }
+      }
+    }
+  ]
+}

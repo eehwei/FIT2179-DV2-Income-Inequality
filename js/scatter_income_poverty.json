@@ -1,0 +1,135 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 700,
+  "height": 500,
+  "title": {
+    "text": "Income vs Poverty Rate by State (2022)",
+    "fontSize": 18
+  },
+  "data": {
+    "url": "data/poverty_by_state.csv"
+  },
+  "transform": [
+    {
+      "filter": "year(toDate(datum.date)) == 2022"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "size": 200,
+        "opacity": 0.8,
+        "color": "#1f77b4"
+      },
+      "encoding": {
+        "x": {
+          "field": "income_median",
+          "type": "quantitative",
+          "scale": {
+            "domain": [3000, 12000]
+          },
+          "axis": {
+            "title": "Median Income (RM)",
+            "format": ",.0f",
+            "titleFontSize": 13,
+            "labelFontSize": 11,
+            "grid": true
+          }
+        },
+        "y": {
+          "field": "poverty",
+          "type": "quantitative",
+          "scale": {
+            "domain": [0, 20]
+          },
+          "axis": {
+            "title": "Poverty Rate (%)",
+            "format": ".1f",
+            "titleFontSize": 13,
+            "labelFontSize": 11,
+            "grid": true
+          }
+        },
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "income_median", "type": "quantitative", "title": "Median Income (RM)", "format": ",.0f"},
+          {"field": "poverty", "type": "quantitative", "title": "Poverty Rate (%)", "format": ".2f"},
+          {"field": "gini", "type": "quantitative", "title": "Gini Coefficient", "format": ".3f"}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {"filter": "datum.state == 'Selangor'"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": -15,
+        "fontSize": 10,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {"field": "income_median", "type": "quantitative"},
+        "y": {"field": "poverty", "type": "quantitative"},
+        "text": {"value": "Selangor"}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "datum.state == 'W.P. Kuala Lumpur'"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": 10,
+        "fontSize": 10,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {"field": "income_median", "type": "quantitative"},
+        "y": {"field": "poverty", "type": "quantitative"},
+        "text": {"value": "W.P. KL"}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "datum.state == 'Kelantan'"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": 0,
+        "fontSize": 10,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {"field": "income_median", "type": "quantitative"},
+        "y": {"field": "poverty", "type": "quantitative"},
+        "text": {"value": "Kelantan"}
+      }
+    },
+    {
+      "transform": [
+        {"filter": "datum.state == 'Sabah'"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": -15,
+        "fontSize": 10,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": {"field": "income_median", "type": "quantitative"},
+        "y": {"field": "poverty", "type": "quantitative"},
+        "text": {"value": "Sabah"}
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 700,
+  "height": 400,
+  "title": {
+    "text": "Inequality Trends Over Time (1970-2022)",
+    "subtitle": "Gini coefficient by state across 5 decades | Darker red = Higher inequality",
+    "fontSize": 18
+  },
+  "data": {
+    "url": "data/gini_by_state.csv"
+  },
+  "transform": [
+    {
+      "calculate": "year(toDate(datum.date))",
+      "as": "year"
+    }
+  ],
+  "mark": {
+    "type": "rect",
+    "stroke": "white",
+    "strokeWidth": 0.5
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {
+        "labelAngle": -45,
+        "labelFontSize": 10
+      }
+    },
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "title": null,
+      "sort": {"field": "gini", "op": "mean", "order": "descending"},
+      "axis": {
+        "labelFontSize": 11
+      }
+    },
+    "color": {
+      "field": "gini",
+      "type": "quantitative",
+      "scale": {
+        "scheme": "redyellowblue",
+        "reverse": true,
+        "domain": [0.30, 0.50]
+      },
+      "legend": {
+        "title": "Gini Coefficient",
+        "orient": "right",
+        "gradientLength": 200
+      }
+    },
+    "tooltip": [
+      {"field": "state", "type": "nominal", "title": "State"},
+      {"field": "year", "type": "ordinal", "title": "Year"},
+      {"field": "gini", "type": "quantitative", "title": "Gini", "format": ".3f"}
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Income Growth by State (1970-2022)",
+  "data": {"url": "data/income_by_state.csv"},
+  "transform": [
+    {"calculate": "year(toDate(datum.date))", "as": "year"}
+  ],
+  "columns": 4,
+  "facet": {"field": "state", "columns": 4, "header":{"labelFontSize":16,"labelFontWeight":"bold"}},
+  "spec": {
+    "width": 150,
+    "height": 100,
+    "mark": {"type": "line", "point": true, "color": "#1f77b4"},
+    "encoding": {
+      "x": {"field": "year", "type": "quantitative", "axis": {"title": null, "format": "d"}},
+      "y": {"field": "income_median", "type": "quantitative", "axis": {"title": "RM", "format": "~s"}},
+      "tooltip": [
+        {"field": "state", "title": "State"},
+        {"field": "year", "title": "Year"},
+        {"field": "income_median", "title": "Income", "format": ",.0f"}
+      ]
+    }
+  }
+}
