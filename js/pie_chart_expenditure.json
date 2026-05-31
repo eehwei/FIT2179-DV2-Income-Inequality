@@ -1,0 +1,32 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Spending Priorities: How Income Groups Allocate Their Money",
+  "width": 300,
+  "height": 300,
+  "data": {
+    "url": "data/expenditure_by_tier.csv"
+  },
+  "mark": "arc",
+  "encoding": {
+    "theta": {"field": "percentage", "type": "quantitative"},
+    "color": {
+      "field": "category",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Survival Essentials", "Fixed Living Costs", "Lifestyle & Mobility", "Discretionary & Future"],
+        "range": ["#e74c3c", "#f39c12", "#3498db", "yellow"]
+      },
+      "legend": {"title": "Spending Category", "orient": "bottom"}
+    },
+    "facet": {
+      "field": "tier",
+      "type": "nominal",
+      "columns": 3
+    },
+    "tooltip": [
+      {"field": "tier", "type": "nominal"},
+      {"field": "category", "type": "nominal"},
+      {"field": "percentage", "type": "quantitative", "title": "% of Income", "format": ".0f"}
+    ]
+  }
+}

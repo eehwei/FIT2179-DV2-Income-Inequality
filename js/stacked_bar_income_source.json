@@ -1,0 +1,44 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 600,
+  "height": 200,
+  "title": {
+    "text": "Sources of Income by Economic Class",
+    "subtitle": "How each income group earns their money"
+  },
+  "data": {
+    "url": "data/income_source.csv"
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "percentage",
+      "type": "quantitative",
+      "stack": "normalize",
+      "axis": {
+        "title": "Share of Total Income (%)",
+        "format": ".0%"
+      }
+    },
+    "y": {
+      "field": "tier",
+      "type": "nominal",
+      "sort": ["B40", "M40", "T20"],
+      "axis": {"title": null}
+    },
+    "color": {
+      "field": "source",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Paid Employment", "Self-Employment", "Government Transfers", "Property & Investments"],
+        "range": ["#3498db", "#f39c12", "#e74c3c", "yellow"]
+      },
+      "legend": {"title": "Income Source", "orient": "bottom"}
+    },
+    "tooltip": [
+      {"field": "tier", "type": "nominal", "title": "Income Group"},
+      {"field": "source", "type": "nominal", "title": "Source"},
+      {"field": "percentage", "type": "quantitative", "title": "Share (%)", "format": ".1f"}
+    ]
+  }
+}
